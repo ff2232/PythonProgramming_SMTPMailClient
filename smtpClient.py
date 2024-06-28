@@ -13,7 +13,6 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect(mailserver)
-    clientSocket.send(msg.encode())
 
     # Fill in end
 
@@ -36,6 +35,9 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     MAILFROMcommand = 'MAIL FROM: <ff2232@nyu.edu>\r\n'
     clientSocket.send(MAILFROMcommand.encode())
     recv2 = clientSocket.recv(1024).decode()
+    print(recv1)
+    if recv2[:3] != '250':
+        print('250 reply not received from server.')
 
     # Fill in end
 
@@ -45,7 +47,9 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     RCPTTOcommand =  'RCPT TO: <nyulabs@gmail.com>\r\n'
     clientSocket.send(RCPTTOcommand.encode())
     recv3 = clientSocket.recv(1024).decode()
-
+    print(recv1)
+    if recv3[:3] != '250':
+        print('250 reply not received from server.')
     # Fill in end
 
     # Send DATA command and handle server response.
@@ -54,7 +58,9 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     DATAcommand = 'DATA\r\n'
     clientSocket.send(DATAcommand.encode())
     recv4 = clientSocket.recv(1024).decode()
-
+    print(recv1)
+    if recv4[:3] != '250':
+        print('250 reply not received from server.')
     # Fill in end
 
     # Send message data.
@@ -63,7 +69,7 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     message = 'I gotta get this right so I can back to studying'
     subject = 'Urgent'
     clientSocket.send(message.encode())
-
+ 
     # Fill in end
 
     # Message ends with a single period, send message end and handle server response.
